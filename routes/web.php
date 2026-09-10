@@ -10,3 +10,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'can:access admin'])
+    ->group(__DIR__.'/admin.php');
