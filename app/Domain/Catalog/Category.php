@@ -27,6 +27,16 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function productGroups(): HasMany
+    {
+        return $this->hasMany(ProductGroup::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
     /**
      * @return array<string, string>
      */

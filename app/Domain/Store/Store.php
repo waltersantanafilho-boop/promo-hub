@@ -2,6 +2,7 @@
 
 namespace App\Domain\Store;
 
+use App\Domain\Catalog\Offer;
 use Database\Factories\Domain\Store\StoreFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
@@ -19,6 +20,11 @@ class Store extends Model
     public function sources(): HasMany
     {
         return $this->hasMany(StoreSource::class);
+    }
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
     }
 
     /**

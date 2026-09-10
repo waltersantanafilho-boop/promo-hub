@@ -2,23 +2,29 @@
 
 namespace App\Domain\Catalog;
 
-use Database\Factories\Domain\Catalog\BrandFactory;
+use Database\Factories\Domain\Catalog\ProductGroupFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[UseFactory(BrandFactory::class)]
-#[Fillable(['name', 'slug', 'logo_url', 'is_active'])]
-class Brand extends Model
+#[UseFactory(ProductGroupFactory::class)]
+#[Fillable(['name', 'slug', 'category_id', 'brand_id', 'description', 'is_active'])]
+class ProductGroup extends Model
 {
-    /** @use HasFactory<BrandFactory> */
+    /** @use HasFactory<ProductGroupFactory> */
     use HasFactory;
 
-    public function productGroups(): HasMany
+    public function category(): BelongsTo
     {
-        return $this->hasMany(ProductGroup::class);
+        return $this->belongsTo(Category::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function products(): HasMany
