@@ -96,7 +96,7 @@ class DashboardControllerTest extends TestCase
             ->assertDontSeeText('Comercial');
     }
 
-    public function test_pending_modules_are_not_links_to_unimplemented_routes(): void
+    public function test_only_pending_modules_are_not_links_to_unimplemented_routes(): void
     {
         $this->seed(RolesAndPermissionsSeeder::class);
         $user = User::factory()->create()->assignRole('admin');
@@ -104,9 +104,12 @@ class DashboardControllerTest extends TestCase
         $response = $this->actingAs($user)->get('/admin');
 
         $response->assertSeeText(['Catálogo', 'Comercial', 'Em breve'])
-            ->assertSee('aria-disabled="true"', false);
+            ->assertSee('aria-disabled="true"', false)
+            ->assertSee('href="'.route('admin.categories.index').'"', false)
+            ->assertSee('href="'.route('admin.brands.index').'"', false)
+            ->assertSee('href="'.route('admin.stores.index').'"', false);
 
-        foreach (['product-groups', 'products', 'categories', 'brands', 'offers', 'stores'] as $module) {
+        foreach (['product-groups', 'products', 'offers'] as $module) {
             $response->assertDontSee('href="'.url('admin/'.$module).'"', false);
         }
     }

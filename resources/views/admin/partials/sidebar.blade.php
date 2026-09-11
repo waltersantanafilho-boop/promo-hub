@@ -26,10 +26,20 @@
                         <x-admin.pending-nav-item icon="box" label="Produtos" />
                     @endcan
                     @can('manage categories')
-                        <x-admin.pending-nav-item icon="grid" label="Categorias" />
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.categories.*')]) href="{{ route('admin.categories.index') }}" @if (request()->routeIs('admin.categories.*')) aria-current="page" @endif>
+                                <x-admin.icon name="grid" />
+                                <span>Categorias</span>
+                            </a>
+                        </li>
                     @endcan
                     @can('manage brands')
-                        <x-admin.pending-nav-item icon="brand" label="Marcas" />
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.brands.*')]) href="{{ route('admin.brands.index') }}" @if (request()->routeIs('admin.brands.*')) aria-current="page" @endif>
+                                <x-admin.icon name="brand" />
+                                <span>Marcas</span>
+                            </a>
+                        </li>
                     @endcan
                 </ul>
             @endcanany
@@ -41,7 +51,12 @@
                         <x-admin.pending-nav-item icon="tag" label="Ofertas" />
                     @endcan
                     @can('manage stores')
-                        <x-admin.pending-nav-item icon="store" label="Lojas" />
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.stores.*')]) href="{{ route('admin.stores.index') }}" @if (request()->routeIs('admin.stores.*')) aria-current="page" @endif>
+                                <x-admin.icon name="store" />
+                                <span>Lojas</span>
+                            </a>
+                        </li>
                     @endcan
                 </ul>
             @endcanany

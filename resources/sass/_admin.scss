@@ -184,6 +184,57 @@
     .admin-footer { padding-block: 1rem 1.5rem; border-top: 1px solid #dce4ef; color: var(--admin-muted); font-size: .72rem; }
     .admin-skip-link:focus { position: fixed; top: .5rem; left: .5rem; z-index: 1100; padding: .75rem; background: #fff; }
 
+    .admin-content-card {
+        border: 0;
+        border-radius: .5rem;
+        box-shadow: 0 4px 12px #3440500a, 0 2px 4px #3440500a;
+    }
+
+    .admin-table {
+        min-width: 720px;
+        margin-bottom: 0;
+    }
+
+    .admin-table > :not(caption) > * > * {
+        padding: .9rem 1rem;
+        vertical-align: middle;
+    }
+
+    .admin-table thead th {
+        border-bottom-width: 1px;
+        color: var(--admin-muted);
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .admin-table tbody td { color: #526176; font-size: .82rem; }
+    .admin-table-link { color: var(--admin-ink); font-weight: 700; text-decoration: none; }
+    .admin-table-link:hover { color: var(--admin-accent); }
+    .admin-table-actions { white-space: nowrap; }
+    .admin-empty-state { padding: 4rem 1.5rem; }
+
+    .admin-empty-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        color: var(--admin-accent);
+        background: #e6f0fb;
+    }
+
+    .admin-form-label { font-size: .8rem; font-weight: 700; }
+    .admin-form-help { color: var(--admin-muted); font-size: .73rem; }
+    .admin-detail-label { margin-bottom: .25rem; color: var(--admin-muted); font-size: .72rem; text-transform: uppercase; }
+    .admin-detail-value { margin-bottom: 0; color: var(--admin-ink); overflow-wrap: anywhere; }
+    .admin-logo-preview { width: 48px; height: 48px; border-radius: .4rem; object-fit: contain; background: #fff; }
+    .admin-config-preview { max-height: 360px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+    .admin-search { width: min(100%, 360px); }
+
     @include media-breakpoint-up(lg) {
         .admin-sidebar { position: sticky; top: 0; width: 280px; height: 100vh; flex-shrink: 0; overflow-y: auto; }
         .admin-sidebar .offcanvas-body { display: block; }

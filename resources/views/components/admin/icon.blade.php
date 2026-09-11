@@ -37,5 +37,19 @@
         @case('logout')
             <path d="M9 3H4v18h5m5-14 5 5-5 5M8 12h13" />
             @break
+        @case('plus')
+            <path d="M12 5v14M5 12h14" />
+            @break
+        @case('search')
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-4-4" />
+            @break
+        @case('inbox')
+            <path d="M4 4h16v16H4Z" />
+            <path d="m4 14 4-4h8l4 4M8 14h8" />
+            @break
+        @case('external')
+            <path d="M14 3h7v7M10 14 21 3M21 14v7H3V3h7" />
+            @break
     @endswitch
 </svg>
