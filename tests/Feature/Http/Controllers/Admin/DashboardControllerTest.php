@@ -96,22 +96,22 @@ class DashboardControllerTest extends TestCase
             ->assertDontSeeText('Comercial');
     }
 
-    public function test_only_pending_modules_are_not_links_to_unimplemented_routes(): void
+    public function test_implemented_modules_are_real_navigation_links(): void
     {
         $this->seed(RolesAndPermissionsSeeder::class);
         $user = User::factory()->create()->assignRole('admin');
 
         $response = $this->actingAs($user)->get('/admin');
 
-        $response->assertSeeText(['Catálogo', 'Comercial', 'Em breve'])
-            ->assertSee('aria-disabled="true"', false)
+        $response->assertSeeText(['Catálogo', 'Comercial'])
+            ->assertDontSeeText('Em breve')
+            ->assertDontSee('aria-disabled="true"', false)
+            ->assertSee('href="'.route('admin.product-groups.index').'"', false)
+            ->assertSee('href="'.route('admin.products.index').'"', false)
             ->assertSee('href="'.route('admin.categories.index').'"', false)
             ->assertSee('href="'.route('admin.brands.index').'"', false)
+            ->assertSee('href="'.route('admin.offers.index').'"', false)
             ->assertSee('href="'.route('admin.stores.index').'"', false);
-
-        foreach (['product-groups', 'products', 'offers'] as $module) {
-            $response->assertDontSee('href="'.url('admin/'.$module).'"', false);
-        }
     }
 
     public function test_user_name_and_email_are_escaped_in_the_layout(): void

@@ -6,6 +6,7 @@ use App\Domain\Catalog\Enums\OfferAvailability;
 use App\Domain\Catalog\Enums\OfferStatus;
 use App\Domain\Catalog\Offer;
 use DateTimeInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class OfferService
@@ -57,6 +58,19 @@ class OfferService
             ]);
 
             return $offer;
+        });
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    public function update(Offer $offer, array $attributes): Offer
+    {
+        return DB::transaction(function () use ($offer, $attributes): Offer {
+            $this->updatePrice($offer, (string) $attributes['price']);
+            $offer->update(Arr::except($attributes, ['price']));
+
+            return $offer->refresh();
         });
     }
 }

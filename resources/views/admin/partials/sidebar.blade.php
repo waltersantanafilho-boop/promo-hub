@@ -22,8 +22,18 @@
                 <h2 class="admin-nav-heading">Catálogo</h2>
                 <ul class="nav flex-column gap-1">
                     @can('manage products')
-                        <x-admin.pending-nav-item icon="layers" label="Grupos de Produtos" />
-                        <x-admin.pending-nav-item icon="box" label="Produtos" />
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.product-groups.*')]) href="{{ route('admin.product-groups.index') }}" @if (request()->routeIs('admin.product-groups.*')) aria-current="page" @endif>
+                                <x-admin.icon name="layers" />
+                                <span>Grupos de Produtos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.products.*')]) href="{{ route('admin.products.index') }}" @if (request()->routeIs('admin.products.*')) aria-current="page" @endif>
+                                <x-admin.icon name="box" />
+                                <span>Produtos</span>
+                            </a>
+                        </li>
                     @endcan
                     @can('manage categories')
                         <li class="nav-item">
@@ -48,7 +58,12 @@
                 <h2 class="admin-nav-heading">Comercial</h2>
                 <ul class="nav flex-column gap-1">
                     @can('manage offers')
-                        <x-admin.pending-nav-item icon="tag" label="Ofertas" />
+                        <li class="nav-item">
+                            <a @class(['nav-link admin-nav-link', 'active' => request()->routeIs('admin.offers.*')]) href="{{ route('admin.offers.index') }}" @if (request()->routeIs('admin.offers.*')) aria-current="page" @endif>
+                                <x-admin.icon name="tag" />
+                                <span>Ofertas</span>
+                            </a>
+                        </li>
                     @endcan
                     @can('manage stores')
                         <li class="nav-item">
@@ -60,8 +75,6 @@
                     @endcan
                 </ul>
             @endcanany
-
-            <p class="admin-sidebar-note mb-0">Os módulos sinalizados estarão disponíveis nas próximas etapas.</p>
         </nav>
     </div>
 </aside>

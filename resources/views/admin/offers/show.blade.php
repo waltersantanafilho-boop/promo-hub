@@ -1,0 +1,21 @@
+@extends('layouts.admin')
+
+@section('title', 'Oferta #'.$offer->id)
+@section('breadcrumbs')<x-admin.breadcrumb :items="[['label' => 'Ofertas', 'url' => route('admin.offers.index')], ['label' => '#'.$offer->id]]" />@endsection
+
+@section('content')
+    <x-admin.page-header :title="'Oferta #'.$offer->id" :description="$offer->product->name" />
+    <div class="card admin-content-card mb-4">
+        <div class="card-header bg-white border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 p-3"><x-admin.state-badge :value="$offer->status->value" :label="$offer->status->label()" /><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.offers.index') }}">Voltar</a><a class="btn btn-sm btn-primary" href="{{ route('admin.offers.edit', $offer) }}">Editar</a></div></div>
+        <div class="card-body p-3 p-sm-4"><dl class="row g-4 mb-0">
+            <div class="col-md-6"><dt class="admin-detail-label">Produto</dt><dd class="admin-detail-value">@can('manage products')<a href="{{ route('admin.products.show', $offer->product) }}">{{ $offer->product->name }}</a>@else{{ $offer->product->name }}@endcan</dd></div><div class="col-md-3"><dt class="admin-detail-label">Loja</dt><dd class="admin-detail-value">{{ $offer->store->name }}</dd></div><div class="col-md-3"><dt class="admin-detail-label">StoreSource</dt><dd class="admin-detail-value">{{ $offer->storeSource->type->label() }}{{ $offer->storeSource->provider_key ? ' · '.$offer->storeSource->provider_key : '' }}</dd></div>
+            <div class="col-md-3"><dt class="admin-detail-label">Preço atual</dt><dd class="admin-detail-value fw-bold"><x-admin.money :amount="$offer->price" :currency="$offer->currency" /></dd></div><div class="col-md-3"><dt class="admin-detail-label">Preço original</dt><dd class="admin-detail-value">@if ($offer->original_price)<x-admin.money :amount="$offer->original_price" :currency="$offer->currency" />@else — @endif</dd></div><div class="col-md-3"><dt class="admin-detail-label">Moeda</dt><dd class="admin-detail-value">{{ $offer->currency }}</dd></div><div class="col-md-3"><dt class="admin-detail-label">Disponibilidade</dt><dd class="admin-detail-value">{{ $offer->availability->label() }}</dd></div>
+            <div class="col-md-4"><dt class="admin-detail-label">ID externo</dt><dd class="admin-detail-value"><code>{{ $offer->external_id }}</code></dd></div><div class="col-md-4"><dt class="admin-detail-label">Última verificação</dt><dd class="admin-detail-value">{{ $offer->last_checked_at?->format('d/m/Y H:i') ?? 'Nunca' }}</dd></div><div class="col-md-4"><dt class="admin-detail-label">URL</dt><dd class="admin-detail-value"><a href="{{ $offer->url }}" target="_blank" rel="noopener noreferrer">Abrir oferta <x-admin.icon name="external" width="16" height="16" /></a></dd></div>
+        </dl></div>
+        <div class="card-footer bg-white p-3"><form class="row g-2 align-items-end" method="POST" action="{{ route('admin.offers.status', $offer) }}">@csrf @method('PATCH')<div class="col-sm-8"><label class="form-label admin-form-label" for="status">Alterar status</label><select class="form-select" id="status" name="status">@foreach ($statuses as $status)<option value="{{ $status->value }}" @selected($offer->status === $status)>{{ $status->label() }}</option>@endforeach</select></div><div class="col-sm-4"><button class="btn btn-outline-primary w-100" type="submit">Atualizar status</button></div></form></div>
+    </div>
+    <div class="card admin-content-card">
+        <div class="card-header bg-white border-bottom p-3"><h2 class="h5 mb-0">Histórico de preços</h2><p class="small text-body-secondary mb-0 mt-1">20 registros mais recentes</p></div>
+        @if ($priceHistories->isEmpty())<x-admin.empty-state title="Histórico vazio" description="Ainda não há preços registrados para esta oferta." />@else<div class="table-responsive"><table class="table admin-table"><thead><tr><th>Preço</th><th>Registrado em</th></tr></thead><tbody>@foreach ($priceHistories as $history)<tr><td><x-admin.money :amount="$history->price" :currency="$offer->currency" /></td><td>{{ $history->recorded_at->format('d/m/Y H:i:s') }}</td></tr>@endforeach</tbody></table></div>@endif
+    </div>
+@endsection
